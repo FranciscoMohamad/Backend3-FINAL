@@ -1,4 +1,6 @@
 import  express  from 'express';
+import passport from './config/passport-config.js';
+import sessionRouter from './routes/session-router.js';
 import { create } from 'express-handlebars';
 import { initMongoDB } from './daos/mongodb/connection.js';
 import { errorHandler } from './middlewares/error-handler.js';
@@ -20,12 +22,14 @@ app.set('views', './src/views');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(passport.initialize());
 
 app.use('/api/products', productRouter)
 app.use('/api/users', userRouter);
 app.use('/api/carts', cartRouter);
 app.use('/', viewRouter);
 app.use('/products', viewRouter);
+app.use('/api/sessions', sessionRouter);
 
 app.use(errorHandler) //siempre colocar despues del enrutador
 
