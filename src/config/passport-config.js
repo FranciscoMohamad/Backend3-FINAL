@@ -4,7 +4,7 @@ import User from '../daos/mongodb/models/user-model.js';
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: 'mi_secreto', // Cambia esto por una clave secreta segura
+  secretOrKey: 'contraseñaSecreta',
 };
 
 passport.use(

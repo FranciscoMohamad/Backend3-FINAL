@@ -11,7 +11,7 @@ router.post('/register', async (req, res) => {
   const { first_name, last_name, email, age, password } = req.body;
 
   try {
-    const hashedPassword = hashPassword(password); // Encriptar la contraseña
+    const hashedPassword = hashPassword(password);
     const user = await User.create({
       first_name,
       last_name,
@@ -36,7 +36,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Usuario no encontrado' });
     }
 
-    const isPasswordValid = comparePassword(password, user.password); // Comparar contraseñas
+    const isPasswordValid = comparePassword(password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Contraseña incorrecta' });
     }
@@ -51,7 +51,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Ruta de validación /current
+// Ruta de validación
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
   res.json({
     id: req.user._id,
