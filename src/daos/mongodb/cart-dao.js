@@ -7,4 +7,4 @@ class CartDAO extends MongoDAO {
   }
 }
 
-export default new CartDAO();
+export const cartDao = new CartDAO();

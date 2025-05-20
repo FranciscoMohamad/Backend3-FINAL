@@ -1,56 +1,45 @@
-import { productDao } from "../daos/mongodb/product-dao.js";
-import CustomError from "../utils/custom-error.js";
+import { productRepository } from '../repositories/product.repository.js';
+import CustomError from '../utils/custom-error.js'; // Ajusta la ruta si es necesario
 
 class ProductService {
-    constructor(dao) {
-        this.dao = dao;
+  async getById(id) {
+    const product = await productRepository.getById(id);
+    if (!product) {
+      throw new CustomError('Producto no encontrado', 404);
     }
+    return product;
+  }
 
-    create = async (body) => {
-        try {
-            const response = await this.dao.create(body);
-            if (!response) throw new CustomError('Product not Created', 400);
-            return response;
-        } catch (error) {
-            throw error
-        }
-    }
+  async getAll() {
+    return await productRepository.getAll();
+  }
 
-    getAll = async () => {
-        try {
-            return await this.dao.getAll();
-        } catch (error) {
-            throw new Error(error);
-        }
+  async create(data) {
+    if (!data.name || !data.price) {
+      throw new CustomError('Faltan campos obligatorios', 400);
     }
+    const existing = await productRepository.getAll();
+    if (existing.some(p => p.name === data.name)) {
+      throw new CustomError('Ya existe un producto con ese nombre', 409);
+    }
+    return await productRepository.create(data);
+  }
 
-    getById = async (id) => {
-        try {
-            const response = await this.dao.getById(id);
-            if (!response) throw new CustomError('Product not found', 404);
-            return response;
-        } catch (error) {
-            throw error
-        }
+  async update(id, data) {
+    const product = await productRepository.getById(id);
+    if (!product) {
+      throw new CustomError('Producto no encontrado', 404);
     }
+    return await productRepository.update(id, data);
+  }
 
-    update = async (id, body) => {
-        try {
-            const response = await this.dao.update(id, body);
-            if (!response) throw new CustomError('Error updating product', 404);
-        } catch (error) {
-            throw error
-        }
+  async delete(id) {
+    const product = await productRepository.getById(id);
+    if (!product) {
+      throw new CustomError('Producto no encontrado', 404);
     }
-
-    delete = async (id) => {
-        try {
-            const response = await this.dao.delete(id);
-            if (!response) throw new CustomError('Error deleting product', 404);
-        } catch (error) {
-            throw error
-        }
-    }
+    return await productRepository.delete(id);
+  }
 }
 
-export const productService = new ProductService(productDao);
+export const productService = new ProductService();

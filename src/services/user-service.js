@@ -1,25 +1,25 @@
-import userDAO from '../daos/mongodb/user-dao.js';
+import { userRepository } from '../repositories/user.repository.js';
 
 class UserService {
-  async createUser(data) {
-    return await userDAO.create(data);
+  async getUserById(id) {
+    return await userRepository.getById(id);
   }
 
   async getUsers() {
-    return await userDAO.getAll();
+    return await userRepository.getAll();
   }
 
-  async getUserById(id) {
-    return await userDAO.getById(id);
+  async createUser(data) {
+    return await userRepository.create(data);
   }
 
   async updateUser(id, data) {
-    return await userDAO.update(id, data);
+    return await userRepository.update(id, data);
   }
 
   async deleteUser(id) {
-    return await userDAO.delete(id);
+    return await userRepository.delete(id);
   }
 }
 
-export default new UserService();
+export const userService = new UserService();

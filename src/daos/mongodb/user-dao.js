@@ -7,4 +7,4 @@ class UserDAO extends MongoDAO {
   }
 }
 
-export default new UserDAO();
+export const userDao = new UserDAO();
