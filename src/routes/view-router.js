@@ -1,6 +1,6 @@
 import express from 'express';
-import { productService } from '../services/product-service.js'; 
-import { cartService } from '../services/cart-service.js'; 
+import { productRepository } from '../repositories/product.repository.js'; 
+import { cartRepository } from '../repositories/cart.repository.js'; 
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 router.get('/cart/:cartId', async (req, res, next) => {
   try {
     const { cartId } = req.params;
-    const cart = await cartService.getCartById(cartId); 
+    const cart = await cartRepository.getCartById(cartId); 
     res.render('cart', { title: 'Carrito', products: cart.products });
   } catch (error) {
     next(error);
@@ -23,7 +23,7 @@ router.get('/cart/:cartId', async (req, res, next) => {
 // Vista de productos
 router.get('/products', async (req, res, next) => {
   try {
-    const products = await productService.getAll(); 
+    const products = await productRepository.getAll(); 
     res.render('products', { title: 'Productos', products });
   } catch (error) {
     next(error);

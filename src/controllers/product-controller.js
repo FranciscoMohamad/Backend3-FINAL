@@ -1,13 +1,13 @@
-import { productService } from '../services/product-service.js';
+import { productRepository } from '../repositories/product.repository.js';
 
 class ProductController {
-    constructor(service){
-        this.service = service;
+    constructor(repository){
+        this.repository = repository;
     }
 
     getAll = async (req, res, next) => {
         try {
-            const response = await this.service.getAll();
+            const response = await this.repository.getAll();
             res.status(200).json(response);
         } catch (error) {
             next(error);
@@ -17,7 +17,7 @@ class ProductController {
     getById = async (req, res, next) => {
         try {
             const { id } = req.params;
-            const response = await this.service.getById(id);
+            const response = await this.repository.getById(id);
             res.status(200).json(response);
         } catch (error) {
             next(error);
@@ -26,7 +26,7 @@ class ProductController {
 
     create = async (req, res, next) => {
         try {
-            const response = await this.service.create(req.body);
+            const response = await this.repository.create(req.body);
             res.status(201).json(response);
         } catch (error) {
             next(error);
@@ -36,7 +36,7 @@ class ProductController {
     update = async (req, res, next) => {
         try {
             const { id } = req.params;
-            const response = await this.service.update(id, req.body);
+            const response = await this.repository.update(id, req.body);
             res.status(200).json(response);
         } catch (error) {
             next(error);
@@ -46,7 +46,7 @@ class ProductController {
     delete = async (req, res, next) => {
         try {
             const { id } = req.params;
-            const response = await this.service.delete(id);
+            const response = await this.repository.delete(id);
             res.status(200).json(response);
         } catch (error) {
             next(error);
@@ -54,4 +54,4 @@ class ProductController {
     };
 }
 
-export const productController = new ProductController(productService);
+export const productController = new ProductController(productRepository);

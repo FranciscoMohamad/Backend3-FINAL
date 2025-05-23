@@ -1,13 +1,14 @@
-import {userService} from '../services/user-service.js';
+import { userRepository } from '../repositories/user.repository.js';
+
 
 class UserController {
-  constructor(service) {
-    this.service = service;
+  constructor(repository) {
+    this.repository = repository;
   }
 
   getAll = async (req, res, next) => {
     try {
-      const response = await this.service.getUsers();
+      const response = await this.repository.getUsers();
       res.status(200).json(response);
     } catch (error) {
       next(error);
@@ -17,7 +18,7 @@ class UserController {
   getById = async (req, res, next) => {
     try {
       const { id } = req.params;
-      const response = await this.service.getUserById(id);
+      const response = await this.repository.getUserById(id);
       res.status(200).json(response);
     } catch (error) {
       next(error);
@@ -26,7 +27,7 @@ class UserController {
 
   create = async (req, res, next) => {
     try {
-      const response = await this.service.createUser(req.body);
+      const response = await this.repository.createUser(req.body);
       res.status(201).json(response);
     } catch (error) {
       next(error);
@@ -36,7 +37,7 @@ class UserController {
   update = async (req, res, next) => {
     try {
       const { id } = req.params;
-      const response = await this.service.updateUser(id, req.body);
+      const response = await this.repository.updateUser(id, req.body);
       res.status(200).json(response);
     } catch (error) {
       next(error);
@@ -46,7 +47,7 @@ class UserController {
   delete = async (req, res, next) => {
     try {
       const { id } = req.params;
-      await this.service.deleteUser(id);
+      await this.repository.deleteUser(id);
       res.status(204).send();
     } catch (error) {
       next(error);
@@ -54,4 +55,4 @@ class UserController {
   };
 }
 
-export const userController = new UserController(userService);
+export const userController = new UserController(userRepository);

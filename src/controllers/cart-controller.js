@@ -1,14 +1,14 @@
-import { cartService } from '../services/cart-service.js';
+import { cartRepository } from '../repositories/cart.repository.js';
 
 class CartController {
-  constructor(service) {
-    this.service = service;
+  constructor(repository) {
+    this.repository = repository;
   }
 
   getByCartId = async (req, res, next) => {
     try {
       const { cartId } = req.params;
-      const response = await this.service.getCartById(cartId);
+      const response = await this.repository.getCartById(cartId);
       res.status(200).json(response);
     } catch (error) {
       next(error);
@@ -17,8 +17,8 @@ class CartController {
 
   createCart = async (req, res, next) => {
     try {
-      const { userId } = req.body; // El ID del usuario se pasa en el cuerpo de la solicitud
-      const response = await this.service.createCart({ userId, products: [] });
+      const { userId } = req.body; 
+      const response = await this.repository.createCart({ userId, products: [] });
       res.status(201).json(response);
     } catch (error) {
       next(error);
@@ -28,7 +28,7 @@ class CartController {
   addProduct = async (req, res, next) => {
     try {
       const { cartId } = req.params;
-      const response = await this.service.addProductToCart(cartId, req.body);
+      const response = await this.repository.addProductToCart(cartId, req.body);
       res.status(200).json(response);
     } catch (error) {
       next(error);
@@ -38,7 +38,7 @@ class CartController {
   removeProduct = async (req, res, next) => {
     try {
       const { cartId, productId } = req.params;
-      const response = await this.service.removeProductFromCart(cartId, productId);
+      const response = await this.repository.removeProductFromCart(cartId, productId);
       res.status(200).json(response);
     } catch (error) {
       next(error);
@@ -48,7 +48,7 @@ class CartController {
   clearCart = async (req, res, next) => {
     try {
       const { cartId } = req.params;
-      const response = await this.service.clearCart(cartId);
+      const response = await this.repository.clearCart(cartId);
       res.status(200).json(response);
     } catch (error) {
       next(error);
@@ -56,4 +56,4 @@ class CartController {
   };
 }
 
-export const cartController = new CartController(cartService);
+export const cartController = new CartController(cartRepository);

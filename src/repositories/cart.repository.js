@@ -1,29 +1,43 @@
 import { cartDao } from '../daos/mongodb/cart-dao.js';
+import CustomError from '../utils/custom-error.js';
 
 class CartRepository {
-  constructor(dao) {
-    this.dao = dao;
+  async getCartById(cartId) {
+    const cart = await cartDao.getById(cartId);
+    if (!cart) throw new CustomError('Carrito no encontrado', 404);
+    return cart;
   }
 
-  async getById(id) {
-    return this.dao.getById(id);
+  async getAllCarts() {
+    return await cartDao.getAll();
   }
 
-  async getAll() {
-    return this.dao.getAll();
+  async createCart(data) {
+    return await cartDao.create(data);
   }
 
-  async create(data) {
-    return this.dao.create(data);
+  async addProductToCart(cartId, product) {
+    const cart = await this.getCartById(cartId);
+    const existingProduct = cart.products.find(p => p.productId.toString() === product.productId);
+    if (existingProduct) {
+      existingProduct.quantity += product.quantity;
+    } else {
+      cart.products.push(product);
+    }
+    return await cartDao.update(cart._id, cart);
   }
 
-  async update(id, data) {
-    return this.dao.update(id, data);
+  async removeProductFromCart(cartId, productId) {
+    const cart = await this.getCartById(cartId);
+    cart.products = cart.products.filter(p => p.productId.toString() !== productId);
+    return await cartDao.update(cart._id, cart);
   }
 
-  async delete(id) {
-    return this.dao.delete(id);
+  async clearCart(cartId) {
+    const cart = await this.getCartById(cartId);
+    cart.products = [];
+    return await cartDao.update(cart._id, cart);
   }
 }
 
-export const cartRepository = new CartRepository(cartDao);
+export const cartRepository = new CartRepository();
