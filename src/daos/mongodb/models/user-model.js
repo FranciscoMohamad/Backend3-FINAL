@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   cart: { type: mongoose.Schema.Types.ObjectId, ref: 'Cart' },
   role: { type: String, default: 'user' },
+  pets: { type: [String], default: [] },
 });
 
 const User = mongoose.model('User', userSchema);

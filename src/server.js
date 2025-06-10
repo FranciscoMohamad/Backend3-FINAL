@@ -8,6 +8,7 @@ import productRouter from './routes/product-router.js';
 import userRouter from './routes/user-router.js';
 import cartRouter from './routes/cart-router.js';
 import viewRouter from './routes/view-router.js';
+import mocksRouter from './routes/mocks-router.js';
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(passport.initialize());
 app.use('/api/products', productRouter)
 app.use('/api/users', userRouter);
 app.use('/api/carts', cartRouter);
+app.use('/api/mocks', mocksRouter);
 app.use('/', viewRouter);
 app.use('/products', viewRouter);
 app.use('/api/sessions', sessionRouter);

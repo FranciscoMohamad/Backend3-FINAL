@@ -1,5 +1,5 @@
 import { userRepository } from '../repositories/user.repository.js';
-
+import { UserDTO } from '../dtos/user.dto.js';
 
 class UserController {
   constructor(repository) {
@@ -8,8 +8,9 @@ class UserController {
 
   getAll = async (req, res, next) => {
     try {
-      const response = await this.repository.getUsers();
-      res.status(200).json(response);
+      const users = await this.repository.getAll();
+      const usersDTO = users.map(user => new UserDTO(user));
+      res.status(200).json(usersDTO);
     } catch (error) {
       next(error);
     }
@@ -18,8 +19,8 @@ class UserController {
   getById = async (req, res, next) => {
     try {
       const { id } = req.params;
-      const response = await this.repository.getUserById(id);
-      res.status(200).json(response);
+      const user = await this.repository.getById(id);
+      res.status(200).json(new UserDTO(user));
     } catch (error) {
       next(error);
     }
@@ -27,8 +28,8 @@ class UserController {
 
   create = async (req, res, next) => {
     try {
-      const response = await this.repository.createUser(req.body);
-      res.status(201).json(response);
+      const user = await this.repository.create(req.body);
+      res.status(201).json(new UserDTO(user));
     } catch (error) {
       next(error);
     }
@@ -37,8 +38,8 @@ class UserController {
   update = async (req, res, next) => {
     try {
       const { id } = req.params;
-      const response = await this.repository.updateUser(id, req.body);
-      res.status(200).json(response);
+      const user = await this.repository.update(id, req.body);
+      res.status(200).json(new UserDTO(user));
     } catch (error) {
       next(error);
     }
@@ -47,7 +48,7 @@ class UserController {
   delete = async (req, res, next) => {
     try {
       const { id } = req.params;
-      await this.repository.deleteUser(id);
+      await this.repository.delete(id);
       res.status(204).send();
     } catch (error) {
       next(error);
