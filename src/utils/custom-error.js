@@ -4,5 +4,3 @@ export default class CustomError extends Error {
         this.status = status;
     }
 }
-
-//throw new CustomError("Error message", 400);

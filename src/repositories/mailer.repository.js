@@ -13,7 +13,6 @@ export async function createEtherealTransporter() {
   });
 }
 
-// Ejemplo de función para enviar mail
 export async function sendMail({ to, subject, html }) {
   const transporter = await createEtherealTransporter();
   const info = await transporter.sendMail({
@@ -22,7 +21,7 @@ export async function sendMail({ to, subject, html }) {
     subject,
     html,
   });
-  // Imprime la URL de Ethereal para ver el mail
+
   console.log('Preview URL: ' + nodemailer.getTestMessageUrl(info));
   return info;
 }

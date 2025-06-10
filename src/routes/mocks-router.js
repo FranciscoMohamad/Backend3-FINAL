@@ -29,7 +29,7 @@ router.get('/mockingusers', (req, res) => {
   res.json(users);
 });
 
-// Nuevo endpoint para insertar usuarios y mascotas en la base de datos
+
 router.post('/generateData', async (req, res) => {
   const { users = 0, pets = 0 } = req.body;
   const userDocs = [];
