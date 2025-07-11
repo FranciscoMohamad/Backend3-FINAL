@@ -29,28 +29,38 @@ router.get('/mockingusers', (req, res) => {
   res.json(users);
 });
 
-
+// ENDPOINT PARA INSERTAR DATOS MASIVOS
 router.post('/generateData', async (req, res) => {
-  const { users = 0, pets = 0 } = req.body;
-  const userDocs = [];
-  const petDocs = [];
-
-  for (let i = 0; i < users; i++) {
-    const role = Math.random() > 0.5 ? 'user' : 'admin';
-    userDocs.push(generateMockUser(role));
+  try {
+    const { users = 0, pets = 0 } = req.body;
+    
+    // Generar usuarios
+    const userDocs = [];
+    for (let i = 0; i < users; i++) {
+      const role = Math.random() > 0.5 ? 'user' : 'admin';
+      userDocs.push(generateMockUser(role));
+    }
+    
+    // Generar mascotas
+    const petDocs = [];
+    for (let i = 0; i < pets; i++) {
+      petDocs.push(generateMockPet());
+    }
+    
+    // Insertar en la base de datos usando Mongoose
+    const insertedUsers = await User.insertMany(userDocs);
+    const insertedPets = await Pet.insertMany(petDocs);
+    
+    res.json({
+      message: 'Datos generados e insertados correctamente',
+      users: insertedUsers.length,
+      pets: insertedPets.length,
+      usersCreated: insertedUsers.map(u => u._id),
+      petsCreated: insertedPets.map(p => p._id)
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-  for (let i = 0; i < pets; i++) {
-    petDocs.push(generateMockPet());
-  }
-
-  const insertedUsers = await User.insertMany(userDocs);
-  const insertedPets = await Pet.insertMany(petDocs);
-
-  res.json({
-    message: 'Datos generados e insertados',
-    users: insertedUsers.length,
-    pets: insertedPets.length
-  });
 });
 
 export default router;

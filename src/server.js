@@ -4,11 +4,14 @@ import sessionRouter from './routes/session-router.js';
 import { create } from 'express-handlebars';
 import { initMongoDB } from './daos/mongodb/connection.js';
 import { errorHandler } from './middlewares/error-handler.js';
+import { swaggerUi, specs } from './config/swagger-config.js';
 import productRouter from './routes/product-router.js';
 import userRouter from './routes/user-router.js';
 import cartRouter from './routes/cart-router.js';
 import viewRouter from './routes/view-router.js';
 import mocksRouter from './routes/mocks-router.js';
+import petRouter from './routes/pet-router.js';
+import adoptionRouter from './routes/adoption-router.js';
 
 const app = express();
 
@@ -29,6 +32,9 @@ app.use('/api/products', productRouter)
 app.use('/api/users', userRouter);
 app.use('/api/carts', cartRouter);
 app.use('/api/mocks', mocksRouter);
+app.use('/api/pets', petRouter);
+app.use('/api/adoptions', adoptionRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/', viewRouter);
 app.use('/products', viewRouter);
 app.use('/api/sessions', sessionRouter);

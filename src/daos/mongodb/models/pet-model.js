@@ -5,8 +5,7 @@ const petSchema = new mongoose.Schema({
   species: String,
   age: Number,
   adopted: Boolean
-});
+}, { timestamps: true });
 
 const Pet = mongoose.model('Pet', petSchema);
-
 export default Pet;
