@@ -1,26 +1,43 @@
-# Backend Ecommerce - PreEntrega
+# TP Backend - E-commerce con Sistema de Adopciones
 
 ## Descripción
 
-Este proyecto es un backend para un sistema de ecommerce desarrollado en Node.js con Express y MongoDB. Incluye autenticación JWT, autorización por roles, sistema de recuperación de contraseña, generación de datos mockeados para pruebas y arquitectura profesional con DTOs, middlewares y separación de capas.
+Proyecto final de Backend para un sistema de e-commerce que incluye funcionalidades de adopción de mascotas, gestión de usuarios, productos y carritos de compra.
 
----
+## Características
 
-## Funcionalidades principales
+- ✅ API REST completa con Express.js
+- ✅ Base de datos MongoDB con Mongoose
+- ✅ Autenticación JWT
+- ✅ Sistema de adopciones de mascotas
+- ✅ Documentación con Swagger
+- ✅ Tests funcionales con Jest
+- ✅ Dockerizado
 
-- **Registro y login de usuarios** con JWT.
-- **Autorización por roles**: solo admin puede crear/editar/eliminar productos, solo user puede agregar productos al carrito.
-- **Recuperación de contraseña** vía email (Ethereal para pruebas).
-- **DTOs** para exponer solo los datos necesarios.
-- **Mocking de datos**: endpoints para generar usuarios y mascotas de prueba.
-- **Carga masiva de usuarios y mascotas** en la base de datos.
-- **Endpoints REST** para usuarios, productos, carritos y mocking.
+## Tecnologías
 
----
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT
+- Swagger
+- Jest
+- Docker
 
-### Clonar el repositorio
+## Documentación API
+
+La documentación completa de la API está disponible en `/api-docs` cuando el servidor está ejecutándose.
+
+## Docker
+
+La imagen de Docker está disponible en DockerHub:
+
+**🐳 [franciscomohamad/tp-backend](https://hub.docker.com/r/franciscomohamad/tp-backend)**
+
+### Ejecutar con Docker:
 
 ```bash
-git clone https://github.com/tuusuario/tu-repo.git
-cd tu-repo
+docker pull franciscomohamad/tp-backend:latest
+docker run -p 8080:8080 --env-file .env franciscomohamad/tp-backend:latest
 ```

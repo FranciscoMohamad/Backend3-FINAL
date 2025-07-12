@@ -29,25 +29,21 @@ router.get('/mockingusers', (req, res) => {
   res.json(users);
 });
 
-// ENDPOINT PARA INSERTAR DATOS MASIVOS
 router.post('/generateData', async (req, res) => {
   try {
     const { users = 0, pets = 0 } = req.body;
     
-    // Generar usuarios
     const userDocs = [];
     for (let i = 0; i < users; i++) {
       const role = Math.random() > 0.5 ? 'user' : 'admin';
       userDocs.push(generateMockUser(role));
     }
     
-    // Generar mascotas
     const petDocs = [];
     for (let i = 0; i < pets; i++) {
       petDocs.push(generateMockPet());
     }
     
-    // Insertar en la base de datos usando Mongoose
     const insertedUsers = await User.insertMany(userDocs);
     const insertedPets = await Pet.insertMany(petDocs);
     

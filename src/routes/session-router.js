@@ -43,7 +43,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Ruta de validación
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
   res.json(new UserDTO(req.user));
 });

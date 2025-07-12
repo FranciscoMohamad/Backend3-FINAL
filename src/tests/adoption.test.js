@@ -27,7 +27,6 @@ describe('Adoption Router Tests', () => {
   beforeEach(async () => {
     await clearDatabase();
     
-    // Crear un usuario de prueba
     const user = await User.create({
       first_name: 'Test',
       last_name: 'User',
@@ -38,7 +37,6 @@ describe('Adoption Router Tests', () => {
     });
     userId = user._id;
 
-    // Crear una mascota de prueba
     const pet = await Pet.create({
       name: 'Firulais',
       species: 'Dog',
@@ -180,7 +178,6 @@ describe('Adoption Router Tests', () => {
 
       expect(response.status).toBe(204);
 
-      // Verificar que la adopción fue eliminada
       const deletedAdoption = await Adoption.findById(adoptionId);
       expect(deletedAdoption).toBeNull();
     });
